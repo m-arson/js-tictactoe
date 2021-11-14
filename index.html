@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Simple Tic Tac Toe</title>
+	<style>
+		.frame {
+			width: 300px;
+			height: 300px;
+			border: 1px solid #333;
+			display: grid;
+			grid-template-columns: 100px 100px 100px;
+			grid-template-rows:100px 100px 100px;
+		}
+		.frame .item {
+			display: block;
+			background-color: #000;
+			color: #fff;
+			border: 1px solid #fff;
+			text-align: center;
+			font-size: 24pt;
+			padding-top: 25px;
+		}
+		.frame .item:hover {
+			background-color: #f00;
+		}
+	</style>
+</head>
+<body>
+	<h1>Tic Tac Toe</h1>
+	<div class="frame">
+		<div class="item"></div>
+		<div class="item"></div>
+		<div class="item"></div>
+		<div class="item"></div>
+		<div class="item"></div>
+		<div class="item" ></div>
+		<div class="item"></div>
+		<div class="item"></div>
+		<div class="item"></div>
+	</div>
+	<p>
+		Player <span id="pid">1</span> Turn!
+	</p>
+	<script>
+		var count = 0;
+		var player1 = [];
+		var player2 = [];
+		var winners = [
+			[0,1,2],
+			[0,3,6],
+			[0,4,8],
+			[2,5,8],
+			[2,4,6],
+			[1,4,7],
+			[3,4,5],
+			[6,7,8]
+		];
+		var items = document.querySelectorAll(".item");
+		var pid = document.getElementById("pid");
+		items.forEach(function(item, inx) {
+			item.addEventListener("click", function() {
+				console.log(inx);
+				if(this.innerHTML == "") {
+					if(count % 2 == 0) {
+						this.innerHTML = "O";
+						pid.innerHTML = "2";
+						player1.push(inx);
+						if(player1.length > 2) {
+							checkWinner(1, player1);
+						}
+					} else {
+						this.innerHTML = "X";
+						player2.push(inx);
+						pid.innerHTML = "1";
+						if(player2.length > 2) {
+							checkWinner(2, player2);
+						}
+					}
+					++count;
+					if(count > 8) {
+						window.alert("Draw");
+						window.location.reload();
+					}
+				}
+			});
+		});
+		function checkWinner(p, arr) {
+			for(var i = 0; i < winners.length; ++i) {
+				if(arr.filter(e => winners[i].includes(e)).length > 2) {
+					window.alert(`Player ${p} is the winner`);
+					window.location.reload();
+				}
+			}
+		}
+	</script>
+</body>
+</html>
